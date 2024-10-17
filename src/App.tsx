@@ -416,7 +416,7 @@ const Product = ({
           }}
         />
         <div
-          className={`bg-[#E5E5E5] rounded-[50%] flex items-center justify-center h-[25px] w-[25px] ml-[2px] ${
+          className={` rounded-[50%] flex items-center justify-center h-[25px] w-[25px] ml-[2px] ${
             dark ? "bg-white" : "bg-[#E5E5E5]"
           }`}
         >
