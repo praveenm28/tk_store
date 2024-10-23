@@ -1,5 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import LapImage1 from "./assets/png/w800.png";
+import LapImage2 from "./assets/png/w800 (1).png";
+import LapImage3 from "./assets/png/w800 (2).png";
+import LapImage4 from "./assets/png/w800 (3).png";
+import LapImage5 from "./assets/png/w800 (4).png";
+import UserImage from "./assets/png/cb9e1b7a0df83e42c0d030a96ae9ce61.png";
+import Rating from "react-rating";
+import { CiLocationOn } from "react-icons/ci";
+import { FiTruck } from "react-icons/fi";
+import { FaPlus } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { CiCreditCard1 } from "react-icons/ci";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
+import Select from "react-select";
 
 const comman = { price: 70, oldPrice: 100, rating: 4.9 };
 const ProductsArray = [
@@ -35,7 +49,47 @@ const ProductsArray = [
   return { ...item, ...comman };
 });
 
+const ReviewArray = [
+  {
+    name: "Dhananjay",
+    mainReview: "Good product",
+    subReview:
+      "I've been using the ASUS Vivobook for a month and love it! It's sleek, lightweight, and perfect for on-the-go. It handles browsing, video calls, and more with ease. The battery life is solid, the display is clear, and the keyboard is comfortable. A great budget-friendly laptop!",
+    time: "2 days ago",
+  },
+  {
+    name: "Dhananjay",
+    mainReview: "Good product",
+    subReview:
+      "I've been using the ASUS Vivobook for a month and love it! It's sleek, lightweight, and perfect for on-the-go. It handles browsing, video calls, and more with ease. The battery life is solid, the display is clear, and the keyboard is comfortable. A great budget-friendly laptop!",
+    time: "2 days ago",
+  },
+  {
+    name: "Dhananjay",
+    mainReview: "Good product",
+    subReview:
+      "I've been using the ASUS Vivobook for a month and love it! It's sleek, lightweight, and perfect for on-the-go. It handles browsing, video calls, and more with ease. The battery life is solid, the display is clear, and the keyboard is comfortable. A great budget-friendly laptop!",
+    time: "2 days ago",
+  },
+  {
+    name: "Dhananjay",
+    mainReview: "Good product",
+    subReview:
+      "I've been using the ASUS Vivobook for a month and love it! It's sleek, lightweight, and perfect for on-the-go. It handles browsing, video calls, and more with ease. The battery life is solid, the display is clear, and the keyboard is comfortable. A great budget-friendly laptop!",
+    time: "2 days ago",
+  },
+  {
+    name: "Dhananjay",
+    mainReview: "Good product",
+    subReview:
+      "I've been using the ASUS Vivobook for a month and love it! It's sleek, lightweight, and perfect for on-the-go. It handles browsing, video calls, and more with ease. The battery life is solid, the display is clear, and the keyboard is comfortable. A great budget-friendly laptop!",
+    time: "2 days ago",
+  },
+];
+
 function App() {
+  var Rating = require("react-rating");
+
   return (
     <>
       {/* header */}
@@ -84,38 +138,46 @@ function App() {
       <ThirdHeader />
 
       {/* 1st banner */}
-      <BannerOne />
+      {/* <BannerOne /> */}
 
       {/* sub-nav */}
-      <SubNav />
+      {/* <SubNav /> */}
 
       {/* {two-ads} */}
-      <TwoAds />
+      {/* <TwoAds /> */}
 
       {/* Feature Products */}
-      <ProductsList title="Featured Products" showViewAll />
+      {/* <ProductsList title="Featured Products" showViewAll /> */}
 
       {/* Best Seller */}
-      <ProductsList title="Best Sellers" rows={2} dark />
+      {/* <ProductsList title="Best Sellers" rows={2} dark /> */}
 
       {/* learn More button */}
-      <LoadMoreButton />
+      {/* <LoadMoreButton /> */}
 
       {/* banner two   */}
 
-      <BannerTwo />
+      {/* <BannerTwo /> */}
 
       {/* banner temp  */}
-      <div className="mb-10 mt-[-100px]">
+      {/* <div className="mb-10 mt-[-100px]">
         <img
           src="/images/banner/banner-temp.png"
           alt="t&k banner"
           style={{ width: "100%", height: "100%" }}
         />
-      </div>
+      </div> */}
 
       {/* third banner  */}
-      <BannerThree />
+      {/* <BannerThree /> */}
+
+      {/* Product details UI starts here */}
+
+      {/* Product Details */}
+      <div className="w-full flex gap-1 px-3 py-2">
+        <ProductDetails />
+        <BuyingComponent />
+      </div>
 
       {/* footer  */}
       <Footer />
@@ -401,7 +463,7 @@ const Product = ({
   dark?: boolean;
 }) => {
   return (
-    <div className="bg-white rounded-[2.8px] border-none shadow-sm flex flex-col p-[10px]">
+    <div className=" min-w-40 rounded-[2.8px] border-none shadow-sm flex flex-col p-[10px]">
       <div
         className={`rounded-[8px] flex flex-row items-end justify-end p-2 ${
           dark ? "bg-[#E5E5E5]" : "bg-white"
@@ -673,6 +735,364 @@ const Footer = () => {
       <p className="font-[Source Sans Pro] text-[14px] font-normal mt-[53px]">
         © 2024 All rights reserved. T and K Food Mart Limited
       </p>
+    </div>
+  );
+};
+
+// product details components starts here
+
+const BreadCrumbs = () => {
+  return (
+    <div className="flex">
+      Home/ Products/ Electronics/{" "}
+      <div className="font-semibold">ASUS Vivobook S 15 OLED</div>
+    </div>
+  );
+};
+
+const ProductImages = () => {
+  const [imageIndex, setImageIndex] = useState(0);
+  return (
+    <div className="flex lg:flex-row flex-col">
+      <div className="flex flex-col-reverse lg:flex-row lg:justify-between lg:gap-2">
+        <div className="flex lg:flex-col flex-row lg:h-full h-fit gap-2 justify-center lg:justify-start lg:py-2">
+          <div className="h-[75px] w-[75px] object-contain">
+            <img src={LapImage1} alt="product_img" />
+          </div>
+          <div className="h-[75px] w-[75px] object-contain">
+            <img src={LapImage2} alt="product_img" />
+          </div>
+          <div className="h-[75px] w-[75px] object-contain">
+            <img src={LapImage3} alt="product_img" />
+          </div>
+          <div className="h-[75px] w-[75px] object-contain">
+            <img src={LapImage4} alt="product_img" />
+          </div>
+        </div>
+        <div className="lg:w-[350px] h-[300px] w-[300px] lg:h-[350px] self-center object-contain">
+          <img src={LapImage5} alt="product_img" className="h-full w-full" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProductInfo = () => {
+  const [qty, setQty] = useState(1);
+  return (
+    <div className="w-full lg:flex-grow flex flex-col py-2 px-4">
+      <div className="w-full flex flex-col gap-1 h-full">
+        <div className="text-[12px] font-semibold">1234+ sold</div>
+        <div className="font-bold text-xl">
+          ASUS Vivobook S 15 OLED Snapdragon X Plus X1P, 16GB RAM, 1TB SSD
+        </div>
+        <div className="flex gap-2 items-center text-xs">
+          <div className="font-semibold flex items-center "></div>{" "}
+          <div className="font-semibold flex items-center">|</div>
+          <div className="font-semibold flex items-center">1234 reviews</div>
+        </div>
+        <div className="text-2xl font-bold text-[#05A30D]">$ 130</div>
+        <div className="pt-4 pb-2 text-sm font-semibold">Quantity</div>
+        <div className="flex gap-1 items-center py-4">
+          <div
+            onClick={() => {
+              if (qty === 1) return;
+              setQty(qty - 1);
+            }}
+            className="h-12 cursor-pointer w-12 flex rounded-full text-2xl text-gray-500 justify-center border items-center"
+          >
+            -
+          </div>
+          <div className="h-12 w-12 text-xl text-center content-center">
+            {qty}
+          </div>
+          <div
+            onClick={() => setQty(qty + 1)}
+            className="h-12 w-12 cursor-pointer flex items-center rounded-full text-2xl text-gray-500 justify-center border"
+          >
+            +
+          </div>
+        </div>
+        <div className="py-2 text-sm font-semibold">Color</div>
+        <div className="w-full flex gap-2">
+          <div className="flex flex-col gap-1">
+            <div className="h-20 w-20 border rounded-lg">
+              <img src={LapImage1} alt="color" />
+            </div>
+            <div className="text-sm px-2 text-center">Silver</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RelatedItems = () => {
+  return (
+    <div className="w-full flex flex-col gap-2 ">
+      <div className="text-sm font-semibold">Related items</div>
+      <div className="w-full flex gap-2 overflow-x-scroll">
+        {ProductsArray.flat().map((item) => (
+          <RelatedProduct
+            dark={false}
+            name={item.name}
+            price={item.price}
+            oldPrice={item.oldPrice}
+            rating={item.rating}
+            image={item.image}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Ratings = () => {
+  return (
+    <div className="flex flex-col lg:items-center lg:flex-row lg:justify-between gap-4">
+      <div className="w-72 border rounded-md flex flex-col items-center gap-3 p-4">
+        <div className="text-2xl font-bold">4.5</div>
+        <div className="flex flex-col items-center w-full gap-1">
+          {/* Star ratings needs to be here */}
+          <div className="text-[12px] text-center">
+            234 Customers are Recommended this Product
+          </div>
+        </div>
+      </div>
+      <div>Star ratings to be implemented</div>
+    </div>
+  );
+};
+
+const Reviews = () => {
+  return (
+    <div className="flex flex-col w-full py-3 gap-4">
+      <div className="w-full flex justify-between">
+        <div className="flex flex-col gap-1">
+          <div className="text-md font-semibold">Ratings</div>
+          <Select
+            onChange={() => console.log("changed")}
+            options={[
+              { value: "strawberry", label: "Strawberry" },
+              { value: "vanilla", label: "Vanilla" },
+            ]}
+          />
+          <div></div>
+        </div>
+        <div className="flex flex-col">
+          <div className="text-md font-semibold">Sort by</div>
+          <Select
+            onChange={() => console.log("changed")}
+            options={[
+              { value: "strawberry", label: "Strawberry" },
+              { value: "vanilla", label: "Vanilla" },
+            ]}
+          />
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        {ReviewArray.map((review: any) => (
+          <ReviewComponent review={review} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const ReviewComponent = (review: any) => {
+  console.log(review);
+  return (
+    <div className="flex gap-2 p-3 w-full bg-[#EFEFEF] relative">
+      <div className="absolute right-3 top-3 text-sm">{review.review.time}</div>
+      <div className="h-8 w-8 rounded-full object-contain overflow-hidden">
+        <img src={UserImage} alt="reviewer_img" />
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-3 items-center">
+          <div className="flex flex-col gap-">
+            <div className=" font-semibold">{review.review.name}</div>
+            <div className="text-xs">star here</div>
+          </div>
+        </div>
+        <div className="font-bold text-lg">{review.review.mainReview}</div>
+        <div className="">"{review.review.subReview}"</div>
+      </div>
+    </div>
+  );
+};
+
+const RelatedProduct = ({
+  name,
+  price,
+  oldPrice,
+  rating,
+  image,
+  dark = false,
+}: {
+  name: string;
+  price: number;
+  oldPrice: number;
+  rating: number;
+  image: string;
+  dark?: boolean;
+}) => {
+  return (
+    <div className=" min-w-52 rounded-[2.8px] border-none shadow-sm flex flex-col p-[10px]">
+      <div
+        className={`rounded-[8px] relative flex flex-row items-end justify-center p-2 ${
+          dark ? "bg-[#E5E5E5]" : "bg-[#E5E5E5]"
+        }`}
+      >
+        <div className="absolute right-2 flex top-2">
+          <FaHeart className="h-[24px] w-[24px] border" fill={"#fff"} />
+        </div>
+        <img
+          alt="product_image_t&k"
+          src={image}
+          style={{
+            width: "80%",
+            height: "100%",
+          }}
+        />
+        <div
+          className={`rounded-full right-2 absolute flex items-center justify-center h-[25px] w-[25px] ml-[2px] ${
+            dark ? "bg-white" : "bg-white"
+          }`}
+        >
+          <FaPlus className="h-[12px] w-[12px]" />
+        </div>
+      </div>
+      <div className="mt-[20px]">
+        <p className="text-black font-[Source Sans Pro] font-normal text-[14px]">
+          {name}
+        </p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <p className="text-[Source Sans Pro] font-semibold text-[14px] text-[#05A30D]">
+              $ {price}
+            </p>
+            &nbsp;
+            <p className="text-[Source Sans Pro] font-normal text-[14px] text-[#879088] line-through">
+              $ {oldPrice}
+            </p>
+          </div>
+          <div className="flex items-center">
+            <img
+              src="/images/products/icons/star.png"
+              alt=""
+              style={{ width: 12, height: 12 }}
+            />
+            <p className="text-[12px] font-[Roboto] font-normal text-[#171817]">
+              {rating}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const BuyingComponent = () => {
+  return (
+    <div className="lg:flex flex-grow hidden pt-20">
+      <div className="lg:flex lg:flex-grow hidden lg:flex-col gap-2 bg-white shadow-md h-fit px-3 py-4">
+        <div className="flex gap-3 items-center">
+          <div className="text-black">
+            <CiLocationOn className="h-7 w-7" />
+          </div>
+          <div className="text-lg">
+            Anuradhapura,North Central Province Sri Lanka
+          </div>
+        </div>
+        <hr />
+        <div className="text-sm font-semibold text-gray-500">
+          Delivery & Payment options
+        </div>
+        <div className="flex gap-3 items-center pt-2">
+          <div className="text-black">
+            <FiTruck className="h-7 w-7" />
+          </div>
+          <div className="text-lg flex flex-col">
+            <div className="flex text-nowrap">
+              Standard Delivery:{" "}
+              <div className="font-bold ml-2 text-nowrap">$ 5.00</div>
+            </div>
+            <div className="text-gray-400 flex">Delivery Time: 2-3 days</div>
+          </div>
+        </div>
+        <hr />
+        <div className="flex gap-3 items-center pt-3">
+          <div className="text-black">
+            <CiCreditCard1 className="h-7 w-7" />
+          </div>
+          <div className="text-lg flex flex-col justify-center">
+            <div className="flex">Cash on delivery</div>
+          </div>
+        </div>
+        <hr />
+        <div className="text-sm flex flex-col gap-2 pt-3">
+          <div className="font-semibold text-gray-400">
+            Delivery & Payment options
+          </div>
+          <div className="flex text-lg flex-col gap-2 pl-4 py-3">
+            <div>7 Days easy return</div>
+            <div>6 month seller warranty included</div>
+            <hr />
+          </div>
+        </div>
+        <div className="flex flex-col gap-3">
+          <div className="w-full h-12 content-center font-bold text-xl text-white bg-[#05A30D] rounded-tl-lg rounded-br-lg text-center">
+            Buy Now
+          </div>
+          <div className="w-full h-12 content-center font-bold text-xl text-[#05A30D] bg-[#CAFFCD] rounded-tl-lg rounded-br-lg text-center">
+            Add to Cart
+          </div>
+        </div>
+        <div className="flex gap-2 pt-6 pl-3">
+          <AiOutlineExclamationCircle className="h-8 w-8 text-gray-500" />
+          <div className="text-sm">
+            Your information is encrypted and securely processed. We do not sell
+            or share your personal data.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProductDetails = () => {
+  return (
+    <div className="w-full lg:w-3/4 flex flex-col p-4">
+      <BreadCrumbs />
+
+      {/* product images and info */}
+      <div className="py-6 flex flex-col lg:self-center lg:flex-row lg:justify-center gap-3 w-full max-w-[980px]">
+        <ProductImages />
+        <ProductInfo />
+      </div>
+
+      <div className="py-6 flex flex-col lg:self-center lg:flex-row lg:justify-center gap-3 w-full max-w-[980px]">
+        <RelatedItems />
+      </div>
+
+      {/* product description */}
+      <div className="py-6 flex flex-col lg:self-center gap-3 w-full max-w-[980px]">
+        <div className="text-md font-semibold">Product Details</div>
+        <hr />
+        <div className="text-md">Product description goes here</div>
+        <hr />
+        <div className="text-md font-semibold">Warranty Details</div>
+        <div className="text-md">Warranty details goes here</div>
+        <hr />
+      </div>
+
+      {/* Ratings and reviews */}
+      <div className="py-2 flex flex-col lg:self-center gap-3 w-full max-w-[980px]">
+        <div className="text-md font-semibold">Customer ratings</div>
+        <Ratings />
+
+        <Reviews />
+      </div>
     </div>
   );
 };
