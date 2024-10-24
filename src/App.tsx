@@ -6,7 +6,6 @@ import LapImage3 from "./assets/png/w800 (2).png";
 import LapImage4 from "./assets/png/w800 (3).png";
 import LapImage5 from "./assets/png/w800 (4).png";
 import UserImage from "./assets/png/cb9e1b7a0df83e42c0d030a96ae9ce61.png";
-import Rating from "react-rating";
 import { CiLocationOn } from "react-icons/ci";
 import { FiTruck } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
@@ -14,8 +13,10 @@ import { FaHeart } from "react-icons/fa";
 import { CiCreditCard1 } from "react-icons/ci";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Select from "react-select";
+import ReactPaginate from "react-paginate";
+import { Rating } from "react-simple-star-rating";
 
-const comman = { price: 70, oldPrice: 100, rating: 4.9 };
+const comman = { price: 70, oldPrice: 100, rating: 4.3 };
 const ProductsArray = [
   {
     name: "Cadbury Dairy Milk Chocolate Bar 110g",
@@ -87,9 +88,11 @@ const ReviewArray = [
   },
 ];
 
-function App() {
-  var Rating = require("react-rating");
+const itemsPerPage = 5;
 
+const pageCount = Math.ceil(ReviewArray.length / itemsPerPage);
+
+function App() {
   return (
     <>
       {/* header */}
@@ -787,7 +790,14 @@ const ProductInfo = () => {
           ASUS Vivobook S 15 OLED Snapdragon X Plus X1P, 16GB RAM, 1TB SSD
         </div>
         <div className="flex gap-2 items-center text-xs">
-          <div className="font-semibold flex items-center "></div>{" "}
+          <div className="font-semibold flex items-center ">
+            <Rating
+              initialValue={4}
+              size={16}
+              readonly
+              SVGclassName="inline-block"
+            />
+          </div>{" "}
           <div className="font-semibold flex items-center">|</div>
           <div className="font-semibold flex items-center">1234 reviews</div>
         </div>
@@ -849,22 +859,117 @@ const RelatedItems = () => {
 
 const Ratings = () => {
   return (
-    <div className="flex flex-col lg:items-center lg:flex-row lg:justify-between gap-4">
-      <div className="w-72 border rounded-md flex flex-col items-center gap-3 p-4">
+    <div className="flex flex-col lg:items-center h-fit lg:flex-row lg:justify-between gap-4 py-4">
+      <div className="lg:w-72 border rounded-md flex h-full flex-col items-center gap-2 p-4">
         <div className="text-2xl font-bold">4.5</div>
+        <div className="w-full flex justify-center">
+          <Rating
+            initialValue={4}
+            size={20}
+            readonly
+            SVGclassName="inline-block"
+          />
+        </div>
         <div className="flex flex-col items-center w-full gap-1">
           {/* Star ratings needs to be here */}
+
           <div className="text-[12px] text-center">
             234 Customers are Recommended this Product
           </div>
         </div>
       </div>
-      <div>Star ratings to be implemented</div>
+      <div className="flex items-center justify-center flex-grow lg:max-w-[50%] flex-col gap-1">
+        <div className="flex w-full justify-center gap-2 items-center">
+          <Rating
+            initialValue={5}
+            size={16}
+            readonly
+            SVGclassName="inline-block"
+            className="flex items-center"
+          />
+          <div className="flex grow items-center">
+            <div className="flex h-1 flex-grow bg-gray-100 relative">
+              <div className="w-[80%] h-1 bg-[#F1B31C]"></div>
+            </div>
+          </div>
+          <div className="text-sm w-20">80%(120)</div>
+        </div>
+        <div className="flex w-full justify-center gap-2 items-center">
+          <Rating
+            initialValue={4}
+            size={16}
+            readonly
+            SVGclassName="inline-block"
+            className="flex items-center"
+          />
+          <div className="flex grow items-center">
+            <div className="flex h-1 flex-grow bg-gray-100 relative">
+              <div className="w-[15%] h-1 bg-[#F1B31C]"></div>
+            </div>
+          </div>
+          <div className="text-sm w-20">15%(22)</div>
+        </div>
+        <div className="flex w-full justify-center gap-2 items-center">
+          <Rating
+            initialValue={3}
+            size={16}
+            readonly
+            SVGclassName="inline-block"
+            className="flex items-center"
+          />
+          <div className="flex grow items-center">
+            <div className="flex h-1 flex-grow bg-gray-100 relative">
+              <div className="w-[4%] h-1 bg-[#F1B31C]"></div>
+            </div>
+          </div>
+          <div className="text-sm w-20">4%(6)</div>
+        </div>
+        <div className="flex w-full justify-center gap-2 items-center">
+          <Rating
+            initialValue={2}
+            size={16}
+            readonly
+            SVGclassName="inline-block"
+            className="flex items-center"
+          />
+          <div className="flex grow items-center">
+            <div className="flex h-1 flex-grow bg-gray-100 relative">
+              <div className="w-[1%] h-1 bg-[#F1B31C]"></div>
+            </div>
+          </div>
+          <div className="text-sm w-20">1%(2)</div>
+        </div>
+        <div className="flex w-full justify-center gap-2 items-center">
+          <Rating
+            initialValue={1}
+            size={16}
+            readonly
+            SVGclassName="inline-block"
+            className="flex items-center"
+          />
+          <div className="flex grow items-center">
+            <div className="flex h-1 flex-grow bg-gray-100 relative">
+              <div className="w-[0%] h-1 bg-[#F1B31C]"></div>
+            </div>
+          </div>
+          <div className="text-sm w-20">0%(0)</div>
+        </div>
+      </div>
     </div>
   );
 };
 
 const Reviews = () => {
+  const [itemOffset, setItemOffset] = useState(0);
+
+  // Invoke when user click to request another page.
+  const handlePageClick = (event: any) => {
+    const newOffset = (event.selected * itemsPerPage) % ReviewArray.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
+  };
   return (
     <div className="flex flex-col w-full py-3 gap-4">
       <div className="w-full flex justify-between">
@@ -895,12 +1000,27 @@ const Reviews = () => {
           <ReviewComponent review={review} />
         ))}
       </div>
+      <div className="flex justify-center items-center w-full">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          className="flex gap-4 py-2"
+          pageClassName="border h-8 w-8 content-center text-center"
+          activeClassName="bg-[#3D3E3D] text-white"
+          nextClassName="font-semibold"
+          previousClassName="font-semibold"
+        />
+      </div>
     </div>
   );
 };
 
 const ReviewComponent = (review: any) => {
-  console.log(review);
   return (
     <div className="flex gap-2 p-3 w-full bg-[#EFEFEF] relative">
       <div className="absolute right-3 top-3 text-sm">{review.review.time}</div>
@@ -911,7 +1031,14 @@ const ReviewComponent = (review: any) => {
         <div className="flex gap-3 items-center">
           <div className="flex flex-col gap-">
             <div className=" font-semibold">{review.review.name}</div>
-            <div className="text-xs">star here</div>
+            <div className="flex">
+              <Rating
+                initialValue={4}
+                size={14}
+                readonly
+                SVGclassName="inline-block"
+              />
+            </div>
           </div>
         </div>
         <div className="font-bold text-lg">{review.review.mainReview}</div>
@@ -966,6 +1093,15 @@ const RelatedProduct = ({
         <p className="text-black font-[Source Sans Pro] font-normal text-[14px]">
           {name}
         </p>
+        <div className="flex items-center">
+          <Rating
+            initialValue={rating}
+            size={16}
+            readonly
+            SVGclassName="inline-block"
+            allowFraction
+          />
+        </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <p className="text-[Source Sans Pro] font-semibold text-[14px] text-[#05A30D]">
@@ -974,16 +1110,6 @@ const RelatedProduct = ({
             &nbsp;
             <p className="text-[Source Sans Pro] font-normal text-[14px] text-[#879088] line-through">
               $ {oldPrice}
-            </p>
-          </div>
-          <div className="flex items-center">
-            <img
-              src="/images/products/icons/star.png"
-              alt=""
-              style={{ width: 12, height: 12 }}
-            />
-            <p className="text-[12px] font-[Roboto] font-normal text-[#171817]">
-              {rating}
             </p>
           </div>
         </div>
